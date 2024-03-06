@@ -1,6 +1,3 @@
-# import pdb; pdb.set_trace()
-import pytest
-
 from ..models.model import translator
 
 

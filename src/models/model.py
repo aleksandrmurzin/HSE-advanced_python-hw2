@@ -34,8 +34,11 @@ class Translate:
     @lru_cache()
     def translate(self, text: str):
         if not self.loading_flag:
-            return ("Mне очень жаль, но сейчас не получается сделать ваш перевод", False)
-        
+            return (
+                "Mне очень жаль, но сейчас не получается сделать ваш перевод",
+                False,
+            )
+
         tokens = self.tokenize(text)
         if tokens["input_ids"].shape[1] > self.model_max_lenght:
             return (

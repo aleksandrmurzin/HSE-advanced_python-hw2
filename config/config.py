@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from dotenv import load_dotenv
 
 # trunk-ignore(ruff/F401)
-from config.base import getenv, ImproperlyConfigured
+from config.base import ImproperlyConfigured, getenv
 
 
 @dataclass

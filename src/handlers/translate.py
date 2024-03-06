@@ -22,13 +22,13 @@ class Content:
     @property
     def working_status(self):
         return as_list(
-        as_marked_section(
-            Bold("Статус:"),
-            "Перевожу...",
-            marker="⏳ ",
-        ),
-    )
-    
+            as_marked_section(
+                Bold("Статус:"),
+                "Перевожу...",
+                marker="⏳ ",
+            ),
+        )
+
     def status_section(self):
         if not self.status:
             return as_marked_section(
@@ -41,19 +41,17 @@ class Content:
             "Успех!",
             marker="✅ ",
         )
-    
 
- 
     @property
     def updated_status(self):
         return as_list(
-        self.status_section(),
-        as_marked_section(
-            "Ответ",
-            "",
-            marker="⬇",
-        ),
-    )
+            self.status_section(),
+            as_marked_section(
+                "Ответ",
+                "",
+                marker="⬇",
+            ),
+        )
 
 
 @router.message(Command(commands=["translate"]))
