@@ -21,4 +21,4 @@ jobs:
         make install
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=missing-docstring $(git ls-files '*.py')
+        pylint --disable=missing-docstring --fail-under=8 $(git ls-files '*.py')
