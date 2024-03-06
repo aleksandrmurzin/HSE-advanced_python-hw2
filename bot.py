@@ -5,17 +5,14 @@ import logging
 
 from aiogram import Bot, Dispatcher
 
-from src.handlers import different_types, example, ratings, start, statistics, translate
-
-# from src.utils.config_reader import config
 from config import Config, load_config
+from src.handlers import different_types, example, ratings, start, statistics, translate
 
 logging.basicConfig(level=logging.INFO)
 
 
 # Запуск бота
 async def main():
-    # bot = Bot(token=config.bot_token.get_secret_value())
     config: Config = load_config()
 
     bot: Bot = Bot(token=config.tg_bot.token, parse_mode="HTML")
