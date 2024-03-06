@@ -15,8 +15,11 @@ class Translate:
 
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+            self.model_max_lenght = self.tokenizer.model_max_length
             self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+            self.loading_flag = True
         except Exception as e:
+            self.loading_flag = False
             print(f"Error loading model: {e}")
 
     def tokenize(self, text):
@@ -30,10 +33,19 @@ class Translate:
 
     @lru_cache()
     def translate(self, text: str):
+        if not self.loading_flag:
+            return ("Mне очень жаль, но сейчас не получается сделать ваш перевод", False)
+        
         tokens = self.tokenize(text)
+        if tokens["input_ids"].shape[1] > self.model_max_lenght:
+            return (
+                "Мне очень жаль, но ваш текст слишком большой для перевода. Попробуйте сократить его",
+                False,
+            )
+
         translataion_encoded = self.generate(tokens)
         translataion_decoded = self.decode(translation=translataion_encoded)
-        return translataion_decoded
+        return (translataion_decoded, True)
 
 
 translator = Translate()
