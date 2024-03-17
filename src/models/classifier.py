@@ -2,7 +2,6 @@
 from dataclasses import dataclass
 
 from functools import lru_cache
-from collections import defaultdict
 from src.models.base import HugggingFaceBaseModel
 from transformers import AutoModelForSequenceClassification, TextClassificationPipeline
 from src.models.utils.reply import ReplyMessage

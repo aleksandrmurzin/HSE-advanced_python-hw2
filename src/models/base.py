@@ -11,7 +11,7 @@ class HugggingFaceBaseModel(ABC):
         model_type,
     ) -> None:
 
-        self.load_model(tokenizer_name, model_name, model_type)
+        self.load_model(tokenizer_name=tokenizer_name, model_name=model_name, model_type=model_type)
 
     def load_model(self, tokenizer_name, model_name, model_type):
 
@@ -20,9 +20,9 @@ class HugggingFaceBaseModel(ABC):
             self.model_max_lenght = self.tokenizer.model_max_length
             self.model = model_type.from_pretrained(model_name)
             self.loading_flag = True
-        except Exception as e:
+        except ImportError as error:
             self.loading_flag = False
-            print(f"Error loading model: {e}")
+            print(f"Error loading model: {error}")
 
     def tokenize(self, text):
         return self.tokenizer(text=text, return_tensors="pt")
