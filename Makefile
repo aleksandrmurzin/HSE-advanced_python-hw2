@@ -10,7 +10,7 @@ PYTHON = python3.8
 REQUIREMENTS_FILE = requirements.txt
 REQUIREMENTS_FILE_1 = requirements_torch.txt
 
-.PHONY: venv install clean run_local activate
+.PHONY: venv install clean run_local activate test
 
 # Target to create the virtual environment
 venv:
@@ -32,6 +32,12 @@ clean:
 
 run_local:
 	@python3 -m bot
+
+test_all:
+	pytest 
+
+test_models:
+	pytest -m models
 
 
 all: venv 
