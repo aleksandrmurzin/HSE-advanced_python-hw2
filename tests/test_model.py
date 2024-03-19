@@ -1,13 +1,15 @@
 import pytest
 
-from src.models.classifier import clf_language
-from src.models.seq2seq import Translate, translator
-from src.models.utils.reply import ReplyMessage
+from bot.models.classifier import clf_language
+from bot.models.seq2seq import Translate, translator
+from bot.models.utils.reply import ReplyMessage
 
 
 @pytest.mark.models
 class TestModelClass:
     def test_raises_error_create_class(self):
+        """test_raises_error_create_class 
+        """
         # trunk-ignore(ruff/B017)
         with pytest.raises(Exception):
             Translate().load_model()

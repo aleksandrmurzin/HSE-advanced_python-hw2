@@ -1,3 +1,5 @@
+"""Configuration for the Telegram bot."""
+
 from abc import ABC, abstractmethod
 
 from transformers import AutoTokenizer
@@ -11,7 +13,9 @@ class HugggingFaceBaseModel(ABC):
         model_type,
     ) -> None:
 
-        self.load_model(tokenizer_name=tokenizer_name, model_name=model_name, model_type=model_type)
+        self.load_model(
+            tokenizer_name=tokenizer_name, model_name=model_name, model_type=model_type
+        )
 
     def load_model(self, tokenizer_name, model_name, model_type):
 
@@ -34,5 +38,4 @@ class HugggingFaceBaseModel(ABC):
         return self.tokenizer.decode(translation[0], skip_special_tokens=True)
 
     @abstractmethod
-    def predict(self):
-        ...
+    def predict(self): ...

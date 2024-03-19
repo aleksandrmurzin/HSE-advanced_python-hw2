@@ -1,3 +1,4 @@
+# trunk-ignore-all(black)
 from dataclasses import dataclass
 
 from aiogram import Router, types, F
@@ -6,12 +7,15 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.utils.formatting import Bold, as_list, as_marked_section
 
-from src.models.seq2seq import translator
+from bot.models.seq2seq import translator
 
 router = Router()
 
 
 class Translate(StatesGroup):
+    """
+    :param StatesGroup: StatesGroup
+    """
     text = State()
 
 
@@ -21,6 +25,9 @@ class Content:
 
     @property
     def working_status(self):
+        """
+        :return:
+        """
         return as_list(
             as_marked_section(
                 Bold("Статус:"),
@@ -30,6 +37,9 @@ class Content:
         )
 
     def status_section(self):
+        """
+        :return:
+        """
         if not self.status:
             return as_marked_section(
                 Bold("Статус:"),
@@ -44,6 +54,9 @@ class Content:
 
     @property
     def updated_status(self):
+        """
+        :return:
+        """
         return as_list(
             self.status_section(),
             as_marked_section(
@@ -56,6 +69,10 @@ class Content:
 
 @router.message(Command(commands=["translate"]))
 async def cmd_translate(message: types.Message, state: FSMContext) -> None:
+    """
+    :param message: message
+    :param state: state
+    """
     await state.set_state(Translate.text)
     await message.answer(
         "Введите текст для перевода", reply_markup=types.ReplyKeyboardRemove()
@@ -64,10 +81,16 @@ async def cmd_translate(message: types.Message, state: FSMContext) -> None:
 
 @router.message(F.text, Translate.text)
 async def process_text(message: types.Message, state: FSMContext) -> None:
+    """
+    :param message: message
+    :param state: state
+    """
     await state.clear()
 
     init_message = await message.reply(**Content().working_status.as_kwargs())
     result = translator.predict(message.text)
 
-    await init_message.edit_text(**Content(status=result.flag).updated_status.as_kwargs())
+    await init_message.edit_text(
+        **Content(status=result.flag).updated_status.as_kwargs()
+    )
     await message.answer(f"{result.message}")
