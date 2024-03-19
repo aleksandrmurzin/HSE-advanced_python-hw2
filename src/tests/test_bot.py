@@ -1,1 +1,0 @@
-# TODO add tests for translating audio, video, stickers and so on
