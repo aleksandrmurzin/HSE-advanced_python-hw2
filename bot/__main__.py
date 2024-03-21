@@ -6,7 +6,7 @@ import logging
 from aiogram import Bot, Dispatcher
 
 from bot.handlers import different_types, ratings, start, statistics, translate
-from config import Config, load_config
+from bot.config import Config, load_config
 
 logging.basicConfig(level=logging.INFO)
 
@@ -23,8 +23,8 @@ async def main():
         start.router,
         translate.router,
         ratings.router,
-        different_types.router,
         statistics.router,
+        different_types.router,
     )
 
     # Запускаем бота и пропускаем все накопленные входящие
