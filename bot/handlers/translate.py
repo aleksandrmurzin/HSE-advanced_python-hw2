@@ -78,6 +78,17 @@ async def cmd_translate(message: types.Message, state: FSMContext) -> None:
         "Введите текст для перевода", reply_markup=types.ReplyKeyboardRemove()
     )
 
+@router.message(~F.text, Translate.text)
+async def process_everythingelse(message: types.Message, state: FSMContext) -> None:
+    """
+    :param message: message
+    :param state: state
+    """
+    await message.answer("Простите, но я умею работать только с текстом.")
+    await state.set_state(Translate.text)    
+    await message.answer(
+        "Введите текст для перевода", reply_markup=types.ReplyKeyboardRemove()
+    )
 
 @router.message(F.text, Translate.text)
 async def process_text(message: types.Message, state: FSMContext) -> None:
