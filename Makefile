@@ -34,10 +34,14 @@ run_local:
 	@python3 -m bot
 
 test_all:
-	pytest 
+	pytest --cov
 
 test_models:
-	pytest -m models
+	pytest --cov -m models
 
+test_bot:
+	pytest  --cov -m asyncio
 
+test_utis:
+	pytest  --cov -m utils
 all: venv 

@@ -3,6 +3,9 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
 def get_github_url_kb() -> types.InlineKeyboardMarkup:
+    """
+    :return:
+    """
     kb = InlineKeyboardBuilder()
     kb.row(
         types.InlineKeyboardButton(
@@ -14,6 +17,9 @@ def get_github_url_kb() -> types.InlineKeyboardMarkup:
 
 
 def get_rating_kb() -> types.InlineKeyboardMarkup:
+    """
+    :return:
+    """
     kb = InlineKeyboardBuilder()
     for i in range(1, 6):
         kb.add(

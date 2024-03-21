@@ -1,14 +1,18 @@
-# trunk-ignore-all(black)
-from dataclasses import dataclass
+"""Configuration for the Telegram bot."""
 
+from dataclasses import dataclass
 from functools import lru_cache
-from src.models.base import HugggingFaceBaseModel
+
 from transformers import AutoModelForSequenceClassification, TextClassificationPipeline
-from src.models.utils.reply import ReplyMessage
+
+from bot.models.base import HugggingFaceBaseModel
+from bot.models.utils.reply import ReplyMessage
 
 
 @dataclass
 class MessageLanguge:
+    """ """
+
     codes2langs = {
         "af-ZA": "Afrikaans",
         "am-ET": "Amharic",
@@ -65,21 +69,31 @@ class MessageLanguge:
 
 
 class LanguageClassifier(HugggingFaceBaseModel):
+    """:param HugggingFaceBaseModel: HugggingFaceBaseModel"""
+
     def __init__(
         self,
         tokenizer_name="qanastek/51-languages-classifier",
         model_name="qanastek/51-languages-classifier",
         model_type=AutoModelForSequenceClassification,
     ) -> None:
+        """:param tokenizer_name: defaults to "qanastek/51-languages-classifier"
+        :param model_name: defaults to "qanastek/51-languages-classifier"
+        :param model_type: defaults to AutoModelForSequenceClassification
+        """
         super().__init__(tokenizer_name, model_name, model_type)
 
     @property
     def clf_pipeline(self):
+        """:return:"""
         return TextClassificationPipeline(model=self.model, tokenizer=self.tokenizer)
 
     # trunk-ignore(ruff/B019)
-    @lru_cache()
+    @lru_cache(maxsize=16)
     def predict(self, text):
+        """:param text: text
+        :return:
+        """
         if not self.loading_flag:
             return ReplyMessage(
                 message="Mне очень жаль, но сейчас не получается сделать ваш перевод",
