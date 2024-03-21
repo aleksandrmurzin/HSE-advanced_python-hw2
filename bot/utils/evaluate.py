@@ -1,25 +1,21 @@
 """Configuration for the Telegram bot."""
-import os
 
+import os
 import pandas as pd
 
 
 class Rating:
-    """
-    """
-    def __init__(self):
-        """
-        """
+    def __init__(self, path=None, file=None):
+        """ """
         self._scores = None
-        self.path = "data"
-        self.file = "scores.csv"
+        self.path = "data" or path
+        self.file = "scores.csv" or path
         self.file_path = os.path.join(self.path, self.file)
 
         self.file_check()
 
     def file_check(self):
-        """
-        """
+        """ """
         if not os.path.exists(self.file_path):
             if not os.path.isdir(self.path):
                 os.mkdir(self.path)
@@ -36,8 +32,7 @@ class Rating:
         return self._scores
 
     def update(self, *args):
-        """
-        """
+        """ """
         self._update(*args)
 
     def _update(self, user, score, dt):
