@@ -40,5 +40,5 @@ test_models:
 	pytest --cov -m models
 
 test_bot:
-	pytest --cov -m asyncio
+	pytest  --cov -m asyncio
 all: venv 
