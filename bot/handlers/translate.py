@@ -12,7 +12,7 @@ from bot.models.seq2seq import translator
 router = Router()
 
 
-class Translate(StatesGroup):
+class TranslateState(StatesGroup):
     """
     :param StatesGroup: StatesGroup
     """
@@ -67,30 +67,30 @@ class Content:
         )
 
 
-@router.message(Command(commands=["translate"]))
-async def cmd_translate(message: types.Message, state: FSMContext) -> None:
+@router.message(Command(commands=["translateState"]))
+async def cmd_translateState(message: types.Message, state: FSMContext) -> None:
     """
     :param message: message
     :param state: state
     """
-    await state.set_state(Translate.text)
+    await state.set_state(TranslateState.text)
     await message.answer(
         "Введите текст для перевода", reply_markup=types.ReplyKeyboardRemove()
     )
 
-@router.message(~F.text, Translate.text)
+@router.message(~F.text, TranslateState.text)
 async def process_everythingelse(message: types.Message, state: FSMContext) -> None:
     """
     :param message: message
     :param state: state
     """
     await message.answer("Простите, но я умею работать только с текстом.")
-    await state.set_state(Translate.text)    
+    await state.set_state(TranslateState.text)    
     await message.answer(
         "Введите текст для перевода", reply_markup=types.ReplyKeyboardRemove()
     )
 
-@router.message(F.text, Translate.text)
+@router.message(F.text, TranslateState.text)
 async def process_text(message: types.Message, state: FSMContext) -> None:
     """
     :param message: message

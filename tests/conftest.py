@@ -2,7 +2,7 @@ import pytest
 
 from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
-
+from bot.utils.data import Rating
 from bot.handlers import get_routers
 from tests.mocked_aiogram import MockedBot, MockedSession
 
@@ -18,3 +18,15 @@ def bot() -> MockedBot:
     bot = MockedBot()
     bot.session = MockedSession()
     return bot
+
+
+@pytest.fixture(scope="session")
+def rating_instance(tmp_path_factory):
+    """
+    :param tmp_path_factory: tmp_path_factory
+    :return: 
+    """
+    fn = tmp_path_factory.mktemp("data")
+    rating = Rating(path=fn, file="scores.csv")
+    return rating
+
