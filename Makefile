@@ -1,8 +1,5 @@
 # Makefile
 
-# Define the virtual environment name
-VENV_NAME = .venv
-
 # Define the Python interpreter
 PYTHON = python3.8
 
@@ -10,11 +7,7 @@ PYTHON = python3.8
 REQUIREMENTS_FILE = requirements.txt
 REQUIREMENTS_FILE_1 = requirements_torch.txt
 
-.PHONY: venv install clean run_local activate test
-
-# Target to create the virtual environment
-venv:
-	$(PYTHON) -m venv $(VENV_NAME)
+.PHONY: install clean run_local activate test
 
 
 # Target to install packages from requirements file
@@ -25,10 +18,6 @@ install:
 	@pip install -r requirements/$(REQUIREMENTS_FILE)
 	@echo "Installation complete."
 
-# Target to clean up the virtual environment
-clean:
-	@echo "Cleaning up..."
-	@rm -rf $(VENV_NAME)
 
 run_local:
 	@python3 -m bot
