@@ -25,6 +25,6 @@ def load_config() -> Config:
     :return:
     """
     # Parse a `.env` file and load the variables into environment valriables
-    load_dotenv(dotenv_path="/app", verbose=True)
+    load_dotenv(dotenv_path="/home/aym/projects/hse/HSE-advanced_python-hw2_TgBot/.env", verbose=True)
 
     return Config(tg_bot=TelegramBotConfig(token=getenv("BOT_TOKEN")))

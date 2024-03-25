@@ -20,21 +20,13 @@ def make_message(text: str, user_id = 123456) -> Message:
 @pytest.mark.asyncio
 async def test_cmd_start(dp, bot):
 
-    chat = Chat(id=1234567, type=ChatType.PRIVATE)
-    user = User(id=1234567, username="Username", is_bot=False, first_name="User")
-
     bot.add_result_for(
         method=SendMessage,
         ok=True,
     )
+    import pdb; pdb.set_trace()
+    message = make_message(text='/start')
 
-    message = Message(
-        message_id=1,
-        chat=chat,
-        from_user=user,
-        text="/start",
-        date=datetime.now(),
-    )
     result = await dp.feed_update(bot, Update(message=message, update_id=1))
     assert result is not UNHANDLED
     outgoing_message: TelegramType = bot.get_request()
@@ -50,20 +42,13 @@ async def test_cmd_start(dp, bot):
 
 @pytest.mark.asyncio
 async def test_rate_translation(dp, bot):
-    chat = Chat(id=1234567, type=ChatType.PRIVATE)
-    user = User(id=1234567, username="Username", is_bot=False, first_name="User")
-
     bot.add_result_for(
         method=SendMessage,
         ok=True,
     )
-    message = Message(
-        message_id=1,
-        chat=chat,
-        from_user=user,
-        text="/rate_translation",
-        date=datetime.now(),
-    )
+    message = make_message(text="/rate_translation")
+
+
     result = await dp.feed_update(bot, Update(message=message, update_id=1))
     assert result is not UNHANDLED
     outgoing_message: TelegramType = bot.get_request()
@@ -73,20 +58,12 @@ async def test_rate_translation(dp, bot):
 
 @pytest.mark.asyncio
 async def test_rate_project(dp, bot):
-    chat = Chat(id=1234567, type=ChatType.PRIVATE)
-    user = User(id=1234567, username="Username", is_bot=False, first_name="User")
-    
     bot.add_result_for(
         method=SendMessage,
         ok=True,
     )
-    message = Message(
-        message_id=1,
-        chat=chat,
-        from_user=user,
-        text="/rate_project",
-        date=datetime.now(),
-    )
+
+    message = make_message(text="/rate_project")
     result = await dp.feed_update(bot, Update(message=message, update_id=1))
     assert result is not UNHANDLED
     outgoing_message: TelegramType = bot.get_request()
@@ -99,50 +76,32 @@ async def test_rate_project(dp, bot):
 
 @pytest.mark.asyncio
 async def test_cmd_get_stats(dp, bot, rating_instance):
-    chat = Chat(id=1234567, type=ChatType.PRIVATE)
-    user = User(id=1234567, username="Username", is_bot=False, first_name="User")
+
     
     bot.add_result_for(
         method=SendMessage,
         ok=True,
     )
-    message = Message(
-        message_id=1,
-        chat=chat,
-        from_user=user,
-        text="/stats",
-        ratings=rating_instance,
-        date=datetime.now(),
-    )
+    message = make_message(text="/rate_project")
     result = await dp.feed_update(bot, Update(message=message, update_id=1),  ratings=rating_instance)
     assert result is not UNHANDLED
     outgoing_message: TelegramType = bot.get_request()
     assert isinstance(outgoing_message, SendMessage)
     assert (
-        outgoing_message.text
-        ==  "Статистика:\n- Пока статистики нет, оцените бот первыми!")
+        outgoing_message.text == "Статистика:\n- Пока статистики нет, оцените бот первыми!")
 
 @pytest.mark.asyncio
 async def test_translate(dp, bot):
-    # Получение контекста FSM для текущего юзера
     chat = Chat(id=1234567, type=ChatType.PRIVATE)
     user = User(id=1234567, username="Username", is_bot=False, first_name="User")
 
     fsm_context: FSMContext = dp.fsm.get_context(bot=bot, user_id=user.id, chat_id=chat.id)
     await fsm_context.set_state(None)   
     
-    bot.add_result_for(
-        method=SendMessage,
-        ok=True,
-    )
-    message = Message(
-        message_id=1,
-        chat=chat,
-        from_user=user,
-        text="/translate",
-        date=datetime.now(),
-    )
+    message = make_message(text='/translate')
+    bot.add_result_for(method=SendMessage, ok=True)
     result = await dp.feed_update(bot, Update(message=message, update_id=1))
+    
     assert result is not UNHANDLED
     outgoing_message: TelegramType = bot.get_request()
     assert isinstance(outgoing_message, SendMessage)
@@ -156,7 +115,7 @@ async def test_translate(dp, bot):
 
     # Отправка корректного значения названия блюда
     bot.add_result_for(SendMessage, ok=True)
-    await dp.feed_update(bot, Update(message=make_message("Привет, это тестовое сообщение"), update_id=1))
+    await dp.feed_update(bot, Update(message=make_message(text="Привет, это тестовое сообщение"), update_id=1))
     bot.get_request()
 
     current_state = await fsm_context.get_state()

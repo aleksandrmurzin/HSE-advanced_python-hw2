@@ -67,8 +67,8 @@ class Content:
         )
 
 
-@router.message(Command(commands=["translateState"]))
-async def cmd_translateState(message: types.Message, state: FSMContext) -> None:
+@router.message(Command(commands=["translate"]))
+async def cmd_translate(message: types.Message, state: FSMContext) -> None:
     """
     :param message: message
     :param state: state
