@@ -22,7 +22,7 @@ def content(text):
 
 
 @router.message(Command("stats"))
-async def cmd_get_stats(message: types.Message, ratings):
+async def cmd_get_stats(message: types.Message, ratings=ratings):
     """
     :param message: message
     """

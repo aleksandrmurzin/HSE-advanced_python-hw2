@@ -4,9 +4,9 @@ import pytest
 from aiogram.dispatcher.event.bases import UNHANDLED
 from aiogram.enums import ChatType
 from aiogram.fsm.context import FSMContext
-from aiogram.methods import SendMessage, AnswerCallbackQuery
+from aiogram.methods import SendMessage
 from aiogram.methods.base import TelegramType
-from aiogram.types import Chat, Message, Update, User, CallbackQuery
+from aiogram.types import Chat, Message, Update, User
 
 from bot.handlers.translate import TranslateState
 from bot.utils.text import bq
