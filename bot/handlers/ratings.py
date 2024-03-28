@@ -4,7 +4,7 @@ from aiogram import F, Router, types
 from aiogram.filters import Command
 
 from bot.keyboards.for_raiting import get_github_url_kb, get_rating_kb
-from bot.utils.evaluate import ratings
+from bot.utils.data import ratings
 
 router = Router()  # [1]
 

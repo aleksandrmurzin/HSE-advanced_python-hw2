@@ -1,10 +1,6 @@
 from aiogram import Router
 
-from . import start
-from . import different_types
-from . import ratings
-from . import statistics
-from . import translate
+from . import different_types, ratings, start, statistics, translate
 
 
 def get_routers() -> "list[Router]":

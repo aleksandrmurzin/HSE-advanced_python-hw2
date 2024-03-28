@@ -2,9 +2,10 @@ from aiogram import Router, types
 from aiogram.filters import Command
 from aiogram.utils.formatting import Bold, as_list, as_marked_section
 
-from bot.utils.evaluate import ratings
+from bot.utils.data import Rating
 
 router = Router()
+ratings = Rating()
 
 
 def content(text):
@@ -21,7 +22,7 @@ def content(text):
 
 
 @router.message(Command("stats"))
-async def cmd_get_info(message: types.Message):
+async def cmd_get_stats(message: types.Message, ratings=ratings):
     """
     :param message: message
     """
@@ -29,5 +30,6 @@ async def cmd_get_info(message: types.Message):
     if not isinstance(statistics, dict):
         text = "Пока статистики нет, оцените бот первыми!"
         await message.answer(**content(text).as_kwargs())
-    text = f"Средняя оценка перевода {statistics['average_rating']}"
-    await message.answer(**content(text).as_kwargs())
+    else:
+        text = f"Средняя оценка перевода {statistics['average_rating']}"
+        await message.answer(**content(text).as_kwargs())

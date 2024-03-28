@@ -1,4 +1,5 @@
 """Configuration for the Telegram bot."""
+
 from aiogram import html
 
 

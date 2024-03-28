@@ -1,6 +1,7 @@
 """Configuration for the Telegram bot."""
 
 import os
+
 import pandas as pd
 
 
@@ -8,8 +9,8 @@ class Rating:
     def __init__(self, path=None, file=None):
         """ """
         self._scores = None
-        self.path = "data" or path
-        self.file = "scores.csv" or path
+        self.path = path if path else "data"
+        self.file = file if file else "scores.csv"
         self.file_path = os.path.join(self.path, self.file)
 
         self.file_check()
@@ -62,7 +63,7 @@ class Rating:
             return {"message": None}
         results = {
             "message": {
-                "average_rating": tmp.groupby("user_id")["score"].last().mean(),
+                "average_rating": round(tmp["score"].mean(), 0),
             }
         }
 
