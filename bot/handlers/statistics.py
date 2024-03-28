@@ -7,6 +7,7 @@ from bot.utils.data import Rating
 router = Router()
 ratings = Rating()
 
+
 def content(text):
     """
     :param text: text

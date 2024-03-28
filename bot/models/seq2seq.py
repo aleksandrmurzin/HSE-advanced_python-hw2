@@ -11,6 +11,7 @@ class Translate(HugggingFaceBaseModel):
     """
     :param HugggingFaceBaseModel: HugggingFaceBaseModel
     """
+
     def __init__(
         self,
         tokenizer_name="Helsinki-NLP/opus-mt-ru-en",

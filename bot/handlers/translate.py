@@ -1,7 +1,7 @@
 # trunk-ignore-all(black)
 from dataclasses import dataclass
 
-from aiogram import Router, types, F
+from aiogram import F, Router, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -16,6 +16,7 @@ class TranslateState(StatesGroup):
     """
     :param StatesGroup: StatesGroup
     """
+
     text = State()
 
 
@@ -78,6 +79,7 @@ async def cmd_translate(message: types.Message, state: FSMContext) -> None:
         "Введите текст для перевода", reply_markup=types.ReplyKeyboardRemove()
     )
 
+
 @router.message(~F.text, TranslateState.text)
 async def process_everythingelse(message: types.Message, state: FSMContext) -> None:
     """
@@ -85,10 +87,11 @@ async def process_everythingelse(message: types.Message, state: FSMContext) -> N
     :param state: state
     """
     await message.answer("Простите, но я умею работать только с текстом.")
-    await state.set_state(TranslateState.text)    
+    await state.set_state(TranslateState.text)
     await message.answer(
         "Введите текст для перевода", reply_markup=types.ReplyKeyboardRemove()
     )
+
 
 @router.message(F.text, TranslateState.text)
 async def process_text(message: types.Message, state: FSMContext) -> None:

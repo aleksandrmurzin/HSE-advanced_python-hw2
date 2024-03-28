@@ -6,6 +6,9 @@ PYTHON = python3.8
 # Define the path to the requirements file
 REQUIREMENTS_FILE = requirements.txt
 REQUIREMENTS_FILE_1 = requirements_torch.txt
+LINT_TARGET := bot/ tests/
+MYPY_TARGET := bot/ tests/
+
 
 .PHONY: install clean run_local activate test
 
@@ -34,3 +37,47 @@ test_bot:
 test_utils:
 	pytest  --cov -m utils
 all: venv 
+
+
+.PHONY: format
+# target: format - Format the code according to the coding styles
+format: format-black format-isort
+
+
+.PHONY: format-black
+format-black:
+	@black ${LINT_TARGET}
+
+
+.PHONY: format-isort
+format-isort:
+	@isort ${LINT_TARGET}
+
+.PHONY: lint
+# target: lint - Check source code with linters
+lint: lint-isort lint-black lint-flake8 lint-mypy lint-pylint
+
+
+.PHONY: lint-black
+lint-black:
+	@${PYTHON} -m black --check --diff ${LINT_TARGET}
+
+
+.PHONY: lint-flake8
+lint-flake8:
+	@${PYTHON} -m flake8 --statistics ${LINT_TARGET}
+
+
+.PHONY: lint-isort
+lint-isort:
+	@${PYTHON} -m isort.main --df -c ${LINT_TARGET}
+
+
+.PHONY: lint-mypy
+lint-mypy:
+	@${PYTHON} -m mypy ${MYPY_TARGET}
+
+
+.PHONY: lint-pylint
+lint-pylint:
+	@${PYTHON} -m pylint --rcfile=.pylintrc --errors-only ${LINT_TARGET}

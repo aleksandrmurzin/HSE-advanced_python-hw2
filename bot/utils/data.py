@@ -1,6 +1,7 @@
 """Configuration for the Telegram bot."""
 
 import os
+
 import pandas as pd
 
 
