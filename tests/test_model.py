@@ -1,7 +1,7 @@
 import pytest
 
 from bot.models.classifier import clf_language
-from bot.models.seq2seq import  translator
+from bot.models.seq2seq import translator
 from bot.models.utils.reply import ReplyMessage
 
 

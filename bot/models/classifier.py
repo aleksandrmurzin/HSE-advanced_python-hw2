@@ -3,8 +3,7 @@
 from dataclasses import dataclass
 from functools import lru_cache
 
-from transformers import (AutoModelForSequenceClassification,
-                          TextClassificationPipeline)
+from transformers import AutoModelForSequenceClassification, TextClassificationPipeline
 
 from bot.models.base import HugggingFaceBaseModel
 from bot.models.utils.reply import ReplyMessage

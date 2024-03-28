@@ -4,9 +4,9 @@ import pytest
 from aiogram.dispatcher.event.bases import UNHANDLED
 from aiogram.enums import ChatType
 from aiogram.fsm.context import FSMContext
-from aiogram.methods import SendMessage
+from aiogram.methods import SendMessage, AnswerCallbackQuery
 from aiogram.methods.base import TelegramType
-from aiogram.types import Chat, Message, Update, User
+from aiogram.types import Chat, Message, Update, User, CallbackQuery
 
 from bot.handlers.translate import TranslateState
 from bot.utils.text import bq
@@ -106,34 +106,42 @@ async def test_cmd_get_stats(dp, bot, rating_instance):
 
 
 @pytest.mark.asyncio
-async def test_translate(dp, bot, user=USER, chat=USER):
+async def test_cmd_get_stats_2(dp, bot, rating_instance):
+    """"""
+    rating_instance.update(9999, 4, "2024-03-21")
+
+    bot.add_result_for(
+        method=SendMessage,
+        ok=True,
+    )
+    message = make_message(text="/stats")
+    result = await dp.feed_update(
+        bot, Update(message=message, update_id=1), ratings=rating_instance
+    )
+    assert result is not UNHANDLED
+    outgoing_message: TelegramType = bot.get_request()
+    assert isinstance(outgoing_message, SendMessage)
+    assert outgoing_message.text == "Статистика:\n- Средняя оценка перевода 4.0"
+
+
+@pytest.mark.asyncio
+async def test_translate_1(dp, bot, user=USER, chat=USER):
     """"""
     fsm_context: FSMContext = dp.fsm.get_context(
         bot=bot, user_id=user.id, chat_id=chat.id
     )
     await fsm_context.set_state(None)
 
-    message = make_message(text="/translate")
     bot.add_result_for(method=SendMessage, ok=True)
-    result = await dp.feed_update(bot, Update(message=message, update_id=1))
-
-    assert result is not UNHANDLED
-    outgoing_message: TelegramType = bot.get_request()
-    assert isinstance(outgoing_message, SendMessage)
-    assert outgoing_message.text == "Введите текст для перевода"
+    result = await dp.feed_update(
+        bot, Update(message=make_message("/translate"), update_id=1)
+    )
 
     current_state = await fsm_context.get_state()
     assert current_state == TranslateState.text
 
-    # Отправка корректного значения названия блюда
-    bot.add_result_for(SendMessage, ok=True)
-    await dp.feed_update(
-        bot,
-        Update(
-            message=make_message(text="Привет, это тестовое сообщение"), update_id=1
-        ),
-    )
-    bot.get_request()
+    assert result is not UNHANDLED
 
-    current_state = await fsm_context.get_state()
-    current_state == 1
+    outgoing_message: TelegramType = bot.get_request()
+    assert isinstance(outgoing_message, SendMessage)
+    assert outgoing_message.text == "Введите текст для перевода"

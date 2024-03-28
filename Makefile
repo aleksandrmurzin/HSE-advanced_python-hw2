@@ -55,7 +55,7 @@ format-isort:
 
 .PHONY: lint
 # target: lint - Check source code with linters
-lint: lint-isort lint-black lint-flake8 lint-mypy lint-pylint
+lint: lint-black lint-flake8 lint-mypy lint-pylint lint-isort
 
 
 .PHONY: lint-black
