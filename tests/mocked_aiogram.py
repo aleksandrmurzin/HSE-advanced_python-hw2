@@ -6,7 +6,8 @@ with slight modifications
 """
 
 from collections import deque
-from typing import TYPE_CHECKING, Any, AsyncGenerator, Deque, Dict, Optional, Type
+from typing import (TYPE_CHECKING, Any, AsyncGenerator, Deque, Dict, Optional,
+                    Type)
 
 from aiogram import Bot
 from aiogram.client.session.base import BaseSession
